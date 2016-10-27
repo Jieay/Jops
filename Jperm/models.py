@@ -1,3 +1,37 @@
-from django.db import models
+# -*- coding: utf-8 -*-
 
-# Create your models here.
+from django.db import models
+from Juser.models import User, UserGroup
+#import datetime
+
+
+class PermLog(models.Model):
+    datetime = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=100, null=True, blank=True, default='')
+    results = models.CharField(max_length=1000, null=True, blank=True, default='')
+    is_success = models.BooleanField(default=False)
+    is_finish = models.BooleanField(default=False)
+
+
+class PermRole(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    comment = models.CharField(max_length=100, null=True, blank=True, default='')
+    password = models.CharField(max_length=128)
+    key_path = models.CharField(max_length=100)
+    date_added = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class PermRule(models.Model):
+    date_added = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100, unique=True)
+    comment = models.CharField(max_length=100)
+    user = models.ManyToManyField(User, related_name='perm_rule')
+    user_group = models.ManyToManyField(UserGroup, related_name='perm_rule')
+    role = models.ManyToManyField(PermRole, related_name='perm_rule')
+
+    def __unicode__(self):
+        return self.name
+
