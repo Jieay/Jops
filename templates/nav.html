@@ -1,0 +1,54 @@
+{% if request.session.role_id == 2 %}
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            {% include 'nav_li_profile.html' %}
+            <li id="index">
+               <a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
+            </li>
+            <li id="swuser">
+                <a href="#"><i class="fa fa-group"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li class="group"><a href="{% url 'user_group_list' %}">查看用户组</a></li>
+                    <li class="user"><a href="{% url 'user_list' %}">查看用户<span class="label {% ifequal user_active_num user_total_num %}label-primary {% else %}label-warning {% endifequal %}pull-right">{{ user_active_num }}/{{ user_total_num }}</span></a></li>
+                </ul>
+            </li>
+
+            <li id="swminpc">
+                <a href="#"><i class="fa fa-inbox"></i> <span class="nav-label">主机管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                	<li class="minpc"><a href="{% url 'salt_list' %}">salt列表</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_list' %}">主机列表</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_login' %}">登录服区</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_db' %}">中央库区</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_gs' %}">游戏服区</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_gsdb' %}">游戏库区</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_test' %}">测试服区</a></li>
+                    <li class="minpc"><a href="{% url 'minpc_other' %}">其他服区</a></li>
+                </ul>
+            </li>
+
+            <li class="special_link">
+                <a href="http://www.saltweb.org" target="_blank"><i class="fa fa-database"></i> <span class="nav-label">访问官网</span></a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endif %}
+
+{% if request.session.role_id == 0 %}
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            {% include 'nav_li_profile.html' %}
+            <li id="swuser">
+               <a href="{% url 'user_detail' %}"><i class="fa fa-dashboard"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
+            </li>
+            <li class="special_link">
+                <a href="http://www.saltweb.org" target="_blank"><i class="fa fa-database"></i> <span class="nav-label">访问官网</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endif %}
