@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 from django.db import models
 from Juser.models import User, UserGroup
-#import datetime
 
 
 class PermLog(models.Model):
@@ -13,12 +13,23 @@ class PermLog(models.Model):
     is_finish = models.BooleanField(default=False)
 
 
+class PermSudo(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    date_added = models.DateTimeField(auto_now=True)
+    commands = models.TextField()
+    comment = models.CharField(max_length=100, null=True, blank=True, default='')
+
+    def __unicode__(self):
+        return self.name
+
+
 class PermRole(models.Model):
     name = models.CharField(max_length=100, unique=True)
     comment = models.CharField(max_length=100, null=True, blank=True, default='')
     password = models.CharField(max_length=128)
     key_path = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now=True)
+    sudo = models.ManyToManyField(PermSudo, related_name='perm_role')
 
     def __unicode__(self):
         return self.name
@@ -35,3 +46,10 @@ class PermRule(models.Model):
     def __unicode__(self):
         return self.name
 
+class PermPush(models.Model):
+    role = models.ForeignKey(PermRole, related_name='perm_push')
+    is_public_key = models.BooleanField(default=False)
+    is_password = models.BooleanField(default=False)
+    success = models.BooleanField(default=False)
+    result = models.TextField(default='')
+    date_added = models.DateTimeField(auto_now=True)

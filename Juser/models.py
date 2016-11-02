@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-#import time
-
-
+import time
 
 class UserGroup(models.Model):
     name = models.CharField(max_length=80, unique=True)
@@ -27,6 +26,7 @@ class User(AbstractUser):
     def __unicode__(self):
         return self.username
 
+
 class AdminGroup(models.Model):
     """
     under the user control group
@@ -38,3 +38,4 @@ class AdminGroup(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.user.username, self.group.name)
+
